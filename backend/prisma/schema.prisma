@@ -12,3 +12,66 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+
+  cart Cart?
+
+  createdAt DateTime @default(now())
+}
+
+model Product {
+  id       String @id @default(uuid())
+  name     String
+  starts   Int
+  colors   String
+  price    Float
+  imageUrl String
+
+  cartId String
+  cart   Cart   @relation(fields: [cartId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model Cart {
+  id         String @id @default(uuid())
+  totalValue Float
+
+  products Product[]
+  userId   String    @unique
+  user     User      @relation(fields: [userId], references: [id])
+  order    Order?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Address {
+  id            String @id @default(uuid())
+  fullName      String
+  lineOne       String
+  lineTwo       String
+  city          String
+  stateOrRegion String
+  zipCpde       String
+  country       String
+
+  order Order?
+}
+
+model Order {
+  id            String @id @default(uuid())
+  paymentMethod String
+
+  cartId          String  @unique
+  cart            Cart    @relation(fields: [cartId], references: [id])
+  addressId       String  @unique
+  shippingAddress Address @relation(fields: [addressId], references: [id])
+
+  createdAt DateTime @default(now())
+}
