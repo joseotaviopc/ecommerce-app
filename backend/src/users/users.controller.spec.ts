@@ -3,6 +3,7 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { PrismaService } from '../services/prisma.service';
 import { faker } from '@faker-js/faker/.';
+import { PasswordService } from '../services/password.service';
 
 describe('UsersController', () => {
   let controller: UsersController;
@@ -10,7 +11,7 @@ describe('UsersController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsersController],
-      providers: [UsersService, PrismaService],
+      providers: [UsersService, PrismaService, PasswordService],
     }).compile();
 
     controller = module.get<UsersController>(UsersController);
@@ -27,7 +28,7 @@ describe('UsersController', () => {
       email: fakeEmail,
       password: 'password',
     });
-    // await controller.remove(user.id);
+    await controller.remove(user.id);
     expect(user).toBeInstanceOf(Object);
   });
 
@@ -71,7 +72,6 @@ describe('UsersController', () => {
       password: 'password',
     });
     const userRemoved = await controller.remove(user.id);
-    // await controller.remove(user.id);
     expect(userRemoved).toBeFalsy();
   });
 });

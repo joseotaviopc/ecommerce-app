@@ -3,13 +3,14 @@ import { UsersService } from './users.service';
 import { PrismaService } from '../services/prisma.service';
 import { faker } from '@faker-js/faker';
 import { CreateUserDto } from './dto/create-user.dto';
+import { PasswordService } from '../services/password.service';
 
 describe('UsersService', () => {
   let service: UsersService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService, PrismaService],
+      providers: [UsersService, PrismaService, PasswordService],
     }).compile();
 
     service = module.get<UsersService>(UsersService);
@@ -28,12 +29,13 @@ describe('UsersService', () => {
       password: 'password',
     });
     const userCreated = await service.create(newUser);
+    const user = await service.findOne(userCreated.id);
 
     expect(userCreated).toBeInstanceOf(Object);
     expect(userCreated.createdAt).toBeInstanceOf(Date);
     expect(userCreated.email).toBe(fakeEmail);
     expect(userCreated.name).toBe('John Doe');
-    expect(userCreated.password).toBe('password');
+    expect(userCreated.password).toBe(user?.password);
 
     await service.remove(userCreated.id);
   });
@@ -57,7 +59,7 @@ describe('UsersService', () => {
     expect(user?.createdAt).toBeInstanceOf(Date);
     expect(user?.email).toBe(fakeEmail);
     expect(user?.name).toBe('John Doe');
-    expect(user?.password).toBe('password');
+    expect(user?.password).toHaveLength(60);
   });
 
   it('should return null when not find a user by id', async () => {
@@ -106,7 +108,7 @@ describe('UsersService', () => {
     expect(userUpdated?.createdAt).toBeInstanceOf(Date);
     expect(userUpdated?.email).toBe('john.doe.updated@domain.com');
     expect(userUpdated?.name).toBe('John Doe Updated');
-    expect(userUpdated?.password).toBe('password');
+    expect(userUpdated?.password).toHaveLength(60);
   });
 
   it('should return null when not find a user to update', async () => {
