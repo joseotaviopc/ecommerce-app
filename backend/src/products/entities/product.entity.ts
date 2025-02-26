@@ -2,7 +2,7 @@ export class Product {
   readonly id: string;
   readonly name: string;
   readonly starts: number;
-  readonly colors: string;
+  readonly colors: string[];
   readonly price: number;
   readonly imageUrl: string;
   readonly cartId: string | null;

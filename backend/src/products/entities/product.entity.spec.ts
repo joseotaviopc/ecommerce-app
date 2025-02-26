@@ -6,7 +6,7 @@ describe('Product Entity', () => {
       id: '1',
       name: 'Product 1',
       price: 100,
-      colors: 'Red',
+      colors: ['Red'],
       starts: 5,
       imageUrl: 'https://www.google.com',
       cartId: '2',
