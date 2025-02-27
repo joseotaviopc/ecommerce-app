@@ -1,6 +1,6 @@
 import colors from '@/constants/Colors';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Pressable, StyleSheet, Text, TextProps, TouchableOpacity, ViewProps } from 'react-native';
+import { StyleSheet, Text, TextProps, TouchableOpacity, ViewProps } from 'react-native';
 
 type ButtonProps = {
     title: string;
