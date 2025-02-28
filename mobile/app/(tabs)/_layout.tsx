@@ -1,63 +1,93 @@
-import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import type React from "react";
 
-import Colors from '@/constants/Colors';
+import { Tabs } from "expo-router";
+import { Platform, Text, View } from "react-native";
 
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+import CartInactiveIcon from "@/components/cart-inactive-icon";
+import CatalogInactiveIcon from "@/components/catalog-inactive-icon";
+import MenuIcon from "@/components/menu-inactive-icon";
+import Colors from "@/constants/Colors";
+
+function HeaderTitle() {
+	return (
+		<View
+			style={{
+				width: "100%",
+				flexGrow: 1,
+				flexDirection: "row",
+				alignItems: "center",
+				paddingHorizontal: 12,
+			}}
+		>
+			<Text
+				style={{ fontFamily: "NotoSans_600", fontSize: 18, lineHeight: 40 }}
+			>
+				My Demo <Text style={{ fontFamily: "NotoSans_400" }}>App</Text>
+			</Text>
+		</View>
+	);
 }
 
 export default function TabLayout() {
-
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors.lightBlue,
-        headerStyle: {
-          backgroundColor: Colors.white,
-          // borderBottomWidth: 0,
-        },
-        headerTitleStyle: {
-          color: Colors.darker,
-        },
-        tabBarStyle: {
-          backgroundColor: Colors.white,
-          borderTopWidth: 0,
-        }
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors.darker}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="two"
-        options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
-    </Tabs>
-  );
+	return (
+		<Tabs
+			screenOptions={{
+				tabBarActiveTintColor: Colors.lightBlue,
+				tabBarInactiveTintColor: Colors.darker,
+				headerStyle: {
+					backgroundColor: Colors.white,
+				},
+				headerTitleStyle: {
+					color: Colors.darker,
+					alignSelf: "center",
+					textAlign: "center",
+					fontFamily: "NotoSans_400",
+					fontSize: 18,
+					lineHeight: 40,
+				},
+				tabBarStyle: {
+					backgroundColor: Colors.white,
+					borderTopWidth: 0,
+					height: Platform.OS === "ios" ? 70 : 60,
+				},
+				tabBarLabelStyle: {
+					fontFamily: "NotoSans_400",
+					fontSize: 12,
+					color: Colors.darker,
+					lineHeight: 20,
+				},
+			}}
+		>
+			<Tabs.Screen
+				name="index"
+				options={{
+					title: "Catalogo",
+					tabBarIcon: ({ color }) => <CatalogInactiveIcon color={color} />,
+					headerTitle: () => <HeaderTitle />,
+				}}
+			/>
+			<Tabs.Screen
+				name="cart"
+				options={{
+					title: "Carrinho",
+					headerTitle: () => <HeaderTitle />,
+					tabBarIcon: ({ color }) => <CartInactiveIcon color={color} />,
+				}}
+			/>
+			<Tabs.Screen
+				name="menu"
+				listeners={({ navigation }) => ({
+					tabPress: (e) => {
+						e.preventDefault();
+						navigation.getParent()?.openDrawer();
+					},
+				})}
+				options={{
+					title: "Menu",
+					headerTitle: () => <HeaderTitle />,
+					tabBarIcon: ({ color }) => <MenuIcon color={color} />,
+				}}
+			/>
+		</Tabs>
+	);
 }
