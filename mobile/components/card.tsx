@@ -1,8 +1,8 @@
 import colors from '@/constants/Colors';
 import { Image, StyleSheet, Text, TouchableOpacity, View, ViewProps } from 'react-native';
-import StartComponent from './start';
-import RemoveCircleComponent from './remove-circle';
-import AddCircleComponent from './add-circle';
+import StartIcon from './start-icon';
+import RemoveCircleIcon from './remove-circle-icon';
+import AddCircleIcon from './add-circle-icon';
 import { faker } from '@faker-js/faker';
 
 type CardProps = {
@@ -39,8 +39,8 @@ export default function Card({ price, starts, title, productColors = [colors.red
                     <View style={styles.boxInfoHorizontal}>
                         <Text style={[styles.title]}>{title}</Text>
                         <View style={styles.starts}>
-                            {Array.from(Array(starts), (_, i) => <StartComponent key={i} color='' />)}
-                            {Array.from(Array(MAX_STAR - starts), (_, i) => <StartComponent key={i} color={colors.light} />)}
+                            {Array.from(Array(starts), (_, i) => <StartIcon key={i} color='' />)}
+                            {Array.from(Array(MAX_STAR - starts), (_, i) => <StartIcon key={i} color={colors.light} />)}
                         </View>
                     </View>
                     <View style={styles.boxColor}>
@@ -52,11 +52,11 @@ export default function Card({ price, starts, title, productColors = [colors.red
                     <Text style={[styles.price]}>R${price}</Text>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                         <TouchableOpacity onPress={() => console.log('menos')} activeOpacity={0.7}>
-                            <RemoveCircleComponent />
+                            <RemoveCircleIcon />
                         </TouchableOpacity>
                         <Text style={[styles.title]}>{price}</Text>
                         <TouchableOpacity onPress={() => console.log('mais')} activeOpacity={0.7}>
-                            <AddCircleComponent />
+                            <AddCircleIcon />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => console.log('remover')} activeOpacity={0.7}>
                             <Text style={[styles.title, {color: colors.red}]}>Remover</Text>
@@ -75,8 +75,8 @@ export default function Card({ price, starts, title, productColors = [colors.red
                 <Text style={[styles.title]}>{title}</Text>
                 <Text style={[styles.price]}>R${price}</Text>
                 <View style={styles.starts}>
-                    {Array.from(Array(starts), (_, i) => <StartComponent key={i} color='' />)}
-                    {Array.from(Array(MAX_STAR - starts), (_, i) => <StartComponent key={i} color={colors.light} />)}
+                    {Array.from(Array(starts), (_, i) => <StartIcon key={i} color='' />)}
+                    {Array.from(Array(MAX_STAR - starts), (_, i) => <StartIcon key={i} color={colors.light} />)}
                 </View>
             </View>
         </TouchableOpacity>

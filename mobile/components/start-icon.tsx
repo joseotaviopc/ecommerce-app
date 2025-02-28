@@ -1,10 +1,10 @@
 import * as React from "react"
 import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg"
-interface StartComponentProps extends SvgProps {
+interface StartIconProps extends SvgProps {
     color: string
 }
 
-const StartComponent = (props: StartComponentProps) => (
+const StartIcon = (props: StartIconProps) => (
   <Svg
     width={20}
     height={20}
@@ -24,4 +24,4 @@ const StartComponent = (props: StartComponentProps) => (
     </Defs>
   </Svg>
 )
-export default StartComponent
+export default StartIcon

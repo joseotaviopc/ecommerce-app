@@ -1,6 +1,6 @@
 import * as React from "react"
 import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg"
-const RemoveCircleComponent = (props: SvgProps) => (
+const CheckboxIcon = (props: SvgProps) => (
   <Svg
     width={24}
     height={24}
@@ -10,7 +10,7 @@ const RemoveCircleComponent = (props: SvgProps) => (
     <G clipPath="url(#a)">
       <Path
         fill="#007CC2"
-        d="M7 11v2h10v-2H7Zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2Zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8Z"
+        d="M21.333 0H2.667C1.187 0 0 1.2 0 2.667v18.666A2.666 2.666 0 0 0 2.667 24h18.666C22.813 24 24 22.8 24 21.333V2.667A2.666 2.666 0 0 0 21.333 0Zm-12 18.667L2.667 12l1.88-1.88 4.786 4.773 10.12-10.12 1.88 1.894-12 12Z"
       />
     </G>
     <Defs>
@@ -20,4 +20,4 @@ const RemoveCircleComponent = (props: SvgProps) => (
     </Defs>
   </Svg>
 )
-export default RemoveCircleComponent
+export default CheckboxIcon
