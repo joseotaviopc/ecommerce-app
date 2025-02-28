@@ -11,17 +11,17 @@ const gradientFrom = '#6AC9FF'
 const gradientTo = '#28CE9C'
 
 const colors = {
-  green,
-  lightBlue,
-  darkBlue,
-  red,
-  yellow,
-  darker,
-  dark,
-  light,
-  white,
-  gradientFrom,
-  gradientTo,
+    green,
+    lightBlue,
+    darkBlue,
+    red,
+    yellow,
+    darker,
+    dark,
+    light,
+    white,
+    gradientFrom,
+    gradientTo,
 }
 
-export default colors;
+export default colors

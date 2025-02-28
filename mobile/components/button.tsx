@@ -1,12 +1,12 @@
-import colors from '@/constants/Colors';
-import { LinearGradient } from 'expo-linear-gradient';
-import { StyleSheet, Text, TextProps, TouchableOpacity, ViewProps } from 'react-native';
+import colors from '@/constants/Colors'
+import { LinearGradient } from 'expo-linear-gradient'
+import { StyleSheet, Text, type TextProps, TouchableOpacity, type ViewProps } from 'react-native'
 
 type ButtonProps = {
-    title: string;
-    onPress: () => void;
-    variant?: 'gradient' | 'outline' | 'outlineColor' | 'danger';
-};
+    title: string
+    onPress: () => void
+    variant?: 'gradient' | 'outline' | 'outlineColor' | 'danger'
+}
 
 export default function Button({ title, onPress, variant = 'gradient' }: ButtonProps) {
     const buttonVariants: Record<string, ViewProps['style']> = {
@@ -39,17 +39,22 @@ export default function Button({ title, onPress, variant = 'gradient' }: ButtonP
                     colors={[colors.gradientFrom, colors.gradientTo]}
                     start={[0, 0]}
                     end={[1, 1]}
-                    style={[styles.button]}>
+                    style={[styles.button]}
+                >
                     <Text style={styles.text}>{title}</Text>
                 </LinearGradient>
             </TouchableOpacity>
         )
     }
     return (
-        <TouchableOpacity onPress={onPress} style={[styles.button, buttonVariants[variant]]} activeOpacity={0.7}>
+        <TouchableOpacity
+            onPress={onPress}
+            style={[styles.button, buttonVariants[variant]]}
+            activeOpacity={0.7}
+        >
             <Text style={[styles.text, textVariants[variant]]}>{title}</Text>
         </TouchableOpacity>
-    );
+    )
 }
 
 const styles = StyleSheet.create({
@@ -68,4 +73,4 @@ const styles = StyleSheet.create({
         fontFamily: 'NotoSans_600',
         lineHeight: 20,
     },
-});
+})
