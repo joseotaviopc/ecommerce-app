@@ -1,7 +1,9 @@
 import CatalogInactiveIcon from "@/components/catalog-inactive-icon";
 import Colors from "@/constants/Colors";
+import type { RootStackParamList } from "@/types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { NavigationProp } from "@react-navigation/native";
-import { Stack, useNavigation } from "expo-router";
+import { useNavigation } from "expo-router";
 import {
 	Platform,
 	StyleSheet,
@@ -46,21 +48,16 @@ const drawerStyles = StyleSheet.create({
 	},
 });
 
-type RootStackParamList = {
-	"(tabs)": {
-		screen: "index" | "cart";
-	};
-	login: undefined;
-	about: undefined;
-	checkout: undefined;
-	"product/[id]": undefined;
-	"+not-found": undefined;
-	report: undefined;
-};
-
 export function DrawerContent() {
 	const { top } = useSafeAreaInsets();
 	const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+	async function handleLogout() {
+		await AsyncStorage.removeItem("isLoggedIn");
+		setTimeout(() => {
+			navigation.navigate("login");
+		}, 500);
+	}
 	return (
 		<SafeAreaView
 			style={[
@@ -107,7 +104,9 @@ export function DrawerContent() {
 				<Text style={drawerStyles.title}>Login</Text>
 			</TouchableOpacity>
 			<Text style={drawerStyles.sectionTitle}>actions</Text>
-			<Text style={drawerStyles.title}>Log Out</Text>
+			<TouchableOpacity activeOpacity={0.7} onPress={handleLogout}>
+				<Text style={drawerStyles.title}>Log Out</Text>
+			</TouchableOpacity>
 			<Text style={drawerStyles.title}>Reset App State</Text>
 			<Text style={drawerStyles.sectionTitle}>other</Text>
 			<TouchableOpacity
