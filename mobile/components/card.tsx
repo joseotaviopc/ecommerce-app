@@ -1,9 +1,9 @@
 import colors from '@/constants/Colors'
 import { faker } from '@faker-js/faker'
 import { Image, StyleSheet, Text, TouchableOpacity, View, type ViewProps } from 'react-native'
-import AddCircleIcon from './add-circle-icon'
-import RemoveCircleIcon from './remove-circle-icon'
-import StartIcon from './start-icon'
+import AddCircleIcon from './icons/add-circle-icon'
+import RemoveCircleIcon from './icons/remove-circle-icon'
+import StartIcon from './icons/start-icon'
 
 type CardProps = {
     title: string
