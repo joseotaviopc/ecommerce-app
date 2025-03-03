@@ -1,4 +1,4 @@
-import CatalogInactiveIcon from "@/components/catalog-inactive-icon";
+import CatalogInactiveIcon from "@/components/icons/catalog-inactive-icon";
 import Colors from "@/constants/Colors";
 import type { RootStackParamList } from "@/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -16,38 +16,6 @@ import {
 	useSafeAreaInsets,
 } from "react-native-safe-area-context";
 
-const drawerStyles = StyleSheet.create({
-	box: {
-		flex: 1,
-		backgroundColor: Colors.white,
-		padding: 12,
-		gap: 6,
-	},
-	title: {
-		fontFamily: "NotoSans_400",
-		fontSize: 20,
-		lineHeight: 32,
-		letterSpacing: 1.25,
-		color: Colors.darker,
-		borderBottomWidth: 1,
-		borderBottomColor: Colors.light,
-		paddingBottom: 12,
-	},
-	sectionTitle: {
-		fontFamily: "NotoSans_400",
-		fontSize: 14,
-		lineHeight: 32,
-		letterSpacing: 2,
-		textTransform: "uppercase",
-		color: Colors.dark,
-	},
-	separator: {
-		height: 1,
-		width: "100%",
-		backgroundColor: Colors.light,
-	},
-});
-
 export function DrawerContent() {
 	const { top } = useSafeAreaInsets();
 	const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -55,7 +23,9 @@ export function DrawerContent() {
 	async function handleLogout() {
 		await AsyncStorage.removeItem("isLoggedIn");
 		setTimeout(() => {
-			navigation.navigate("login");
+			navigation.navigate("(tabs)", {
+				screen: "login",
+			});
 		}, 500);
 	}
 	return (
@@ -90,7 +60,9 @@ export function DrawerContent() {
 			<TouchableOpacity
 				activeOpacity={0.7}
 				onPress={() => {
-					navigation.navigate("checkout");
+					navigation.navigate("(tabs)", {
+						screen: "checkout",
+					});
 				}}
 			>
 				<Text style={drawerStyles.title}>Checkout</Text>
@@ -98,7 +70,9 @@ export function DrawerContent() {
 			<TouchableOpacity
 				activeOpacity={0.7}
 				onPress={() => {
-					navigation.navigate("login");
+					navigation.navigate("(tabs)", {
+						screen: "login",
+					});
 				}}
 			>
 				<Text style={drawerStyles.title}>Login</Text>
@@ -112,7 +86,9 @@ export function DrawerContent() {
 			<TouchableOpacity
 				activeOpacity={0.7}
 				onPress={() => {
-					navigation.navigate("report");
+					navigation.navigate("(tabs)", {
+						screen: "report",
+					});
 				}}
 			>
 				<Text style={drawerStyles.title}>Report a Bug</Text>
@@ -120,7 +96,9 @@ export function DrawerContent() {
 			<TouchableOpacity
 				activeOpacity={0.7}
 				onPress={() => {
-					navigation.navigate("about");
+					navigation.navigate("(tabs)", {
+						screen: "about",
+					});
 				}}
 			>
 				<Text style={drawerStyles.title}>About</Text>
@@ -128,3 +106,35 @@ export function DrawerContent() {
 		</SafeAreaView>
 	);
 }
+
+const drawerStyles = StyleSheet.create({
+	box: {
+		flex: 1,
+		backgroundColor: Colors.white,
+		padding: 12,
+		gap: 6,
+	},
+	title: {
+		fontFamily: "NotoSans_400",
+		fontSize: 20,
+		lineHeight: 32,
+		letterSpacing: 1.25,
+		color: Colors.darker,
+		borderBottomWidth: 1,
+		borderBottomColor: Colors.light,
+		paddingBottom: 12,
+	},
+	sectionTitle: {
+		fontFamily: "NotoSans_400",
+		fontSize: 14,
+		lineHeight: 32,
+		letterSpacing: 2,
+		textTransform: "uppercase",
+		color: Colors.dark,
+	},
+	separator: {
+		height: 1,
+		width: "100%",
+		backgroundColor: Colors.light,
+	},
+});

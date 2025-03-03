@@ -1,11 +1,6 @@
 export type RootStackParamList = {
 	"(tabs)": {
-		screen: "index" | "cart";
+		screen: "index" | "cart" | "login" | "about" | "report" | "checkout" | "product/[id]"
 	};
-	login: undefined;
-	about: undefined;
-	checkout: undefined;
-	"product/[id]": undefined;
 	"+not-found": undefined;
-	report: undefined;
 };
