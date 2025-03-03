@@ -6,7 +6,7 @@ export default function AboutScreen() {
 		<View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
 			<Text style={{ fontSize: 24, fontWeight: "bold" }}>About Screen</Text>
 			<Image
-				source={require("../components/blur-bg.png")}
+				source={require("../../components/blur-bg.png")}
 				style={{ width: "100%", height: "100%", position: "absolute" }}
 			/>
 		</View>

@@ -1,35 +1,28 @@
 import type React from "react";
 
-import { Tabs } from "expo-router";
-import { Platform, Text, View } from "react-native";
+import { Redirect, Tabs } from "expo-router";
+import { ActivityIndicator, Platform, Text, View } from "react-native";
 
-import CartInactiveIcon from "@/components/cart-inactive-icon";
-import CatalogInactiveIcon from "@/components/catalog-inactive-icon";
-import MenuIcon from "@/components/menu-inactive-icon";
+import CartInactiveIcon from "@/components/icons/cart-inactive-icon";
+import CatalogInactiveIcon from "@/components/icons/catalog-inactive-icon";
+import MenuIcon from "@/components/icons/menu-inactive-icon";
 import Colors from "@/constants/Colors";
-
-function HeaderTitle() {
-	return (
-		<View
-			style={{
-				width: "100%",
-				flexGrow: 1,
-				flexDirection: "row",
-				alignItems: "center",
-				paddingHorizontal: 12,
-			}}
-		>
-			<Text
-				style={{ fontFamily: "NotoSans_600", fontSize: 18, lineHeight: 40 }}
-			>
-				My Demo <Text style={{ fontFamily: "NotoSans_400" }}>App</Text>
-			</Text>
-		</View>
-	);
-}
+import { HeaderTitle } from "@/components/header-title";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function TabLayout() {
-	return (
+	const {isLoading,isAuthenticated} = useAuth()
+
+	if (isLoading) {
+		return (
+			<View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+				<ActivityIndicator color={Colors.lightBlue} size="large" />
+			</View>
+		)}
+	
+		// if (!isAuthenticated) return <Redirect href={"/login"} />
+	
+		return (
 		<Tabs
 			screenOptions={{
 				tabBarActiveTintColor: Colors.lightBlue,
@@ -73,6 +66,41 @@ export default function TabLayout() {
 					headerTitle: () => <HeaderTitle />,
 					tabBarIcon: ({ color }) => <CartInactiveIcon color={color} />,
 				}}
+			/>
+			<Tabs.Screen
+				name="login"
+				options={{
+					href: null,
+					headerTitle: () => <HeaderTitle />,
+				  }}
+			/>
+			<Tabs.Screen
+				name="about"
+				options={{
+					href: null,
+					headerTitle: () => <HeaderTitle />,
+				  }}
+			/>
+			<Tabs.Screen
+				name="report"
+				options={{
+					href: null,
+					headerTitle: () => <HeaderTitle />,
+				  }}
+			/>
+			<Tabs.Screen
+				name="checkout"
+				options={{
+					href: null,
+					headerTitle: () => <HeaderTitle />,
+				  }}
+			/>
+			<Tabs.Screen
+				name="product"
+				options={{
+					href: null,
+					headerTitle: () => <HeaderTitle />,
+				  }}
 			/>
 			<Tabs.Screen
 				name="menu"

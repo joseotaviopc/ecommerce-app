@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 
 import Button from "@/components/button";
 import colors from "@/constants/Colors";
@@ -11,6 +11,8 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import z from "zod";
+import { useAuth } from "@/hooks/useAuth";
+import Colors from "@/constants/Colors";
 
 const loginSchema = z.object({
 	email: z
@@ -52,7 +54,10 @@ export default function LoginScreen() {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>Bem Vindo</Text>
+			<Text style={styles.title}>Login</Text>
+			<Text style={styles.subTitle}>
+			Selecione um nome de usuário e uma senha na lista abaixo ou clique no nome de usuário para preencher automaticamente o nome de usuário e a senha.
+			</Text>
 			<Controller
 				control={control}
 				render={({ field: { onChange, onBlur, value } }) => (
@@ -76,7 +81,7 @@ export default function LoginScreen() {
 				render={({ field: { onChange, onBlur, value } }) => (
 					<TextInput
 						style={styles.input}
-						placeholder="Password"
+						placeholder="Senha"
 						secureTextEntry={true}
 						placeholderTextColor={colors.dark}
 						onBlur={onBlur}
@@ -94,6 +99,17 @@ export default function LoginScreen() {
 				title="Login"
 				onPress={handleSubmit(handleLogin)}
 			/>
+			<View style={styles.infoContainer}>
+				<Text style={styles.infoTextBold}>Nomes de usuário aceitos:</Text>
+				<Text style={styles.infoText}>
+				bob@example.com
+				</Text>
+				<Text style={[styles.infoText, { marginBottom: 24}]}>
+				alice@example.com (locked out)
+				</Text>
+				<Text style={styles.infoTextBold}>Senha para todos os usuários:</Text>
+				<Text style={styles.infoText}>10203040</Text>
+			</View>
 		</View>
 	);
 }
@@ -107,8 +123,17 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 24,
-		fontFamily: "NotoSans_600",
+		lineHeight: 32,
+		fontFamily: "NotoSans_700",
 		marginBottom: 20,
+		alignSelf: 'flex-start',
+		textAlign: 'left'
+	},
+	subTitle: {
+		fontSize: 16,
+		fontFamily: "NotoSans_400",
+		marginBottom: 24,
+		color: Colors.dark
 	},
 	errorText: {
 		fontFamily: "NotoSans_400",
@@ -120,9 +145,8 @@ const styles = StyleSheet.create({
 		fontFamily: "NotoSans_400",
 		width: "100%",
 		height: 40,
-		borderColor: "gray",
-		borderWidth: 1,
-		borderRadius: 8,
+		borderBottomColor: Colors.light,
+		borderBottomWidth: 1,
 		paddingHorizontal: 10,
 		marginBottom: 10,
 		color: colors.darkBlue,
@@ -137,4 +161,25 @@ const styles = StyleSheet.create({
 		color: "white",
 		fontWeight: "bold",
 	},
+	infoContainer: {
+		borderRadius: 8,
+		borderWidth: 1,
+		borderColor: Colors.light,
+		backgroundColor: Colors.light,
+		padding: 16,
+		marginTop: 48,
+		width: '100%'
+	},
+	infoText: {
+		fontSize: 14,
+		lineHeight: 20,
+		fontFamily: "NotoSans_400",
+	},
+	infoTextBold: {
+		fontSize: 16,
+		lineHeight: 20,
+		fontFamily: "NotoSans_700",
+		marginBottom: 10
+
+	}
 });

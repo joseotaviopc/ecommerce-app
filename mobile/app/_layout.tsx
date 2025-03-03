@@ -65,31 +65,8 @@ export default function RootLayout() {
 				}}
 			>
 				<Drawer.Screen name="(tabs)" options={{ drawerLabel: "Catálogo" }} />
-				<Drawer.Screen name="login" options={{ drawerLabel: "Login" }} />
-				<Drawer.Screen
-					name="about"
-					options={({ navigation }) => ({ drawerLabel: "About" })}
-				/>
-				<Drawer.Screen
-					name="checkout"
-					options={{
-						drawerItemStyle: { display: "none" },
-					}}
-				/>
-				<Drawer.Screen
-					name="product/[id]"
-					options={{
-						drawerItemStyle: { display: "none" },
-					}}
-				/>
 				<Drawer.Screen
 					name="+not-found"
-					options={{
-						drawerItemStyle: { display: "none" },
-					}}
-				/>
-				<Drawer.Screen
-					name="report"
 					options={{
 						drawerItemStyle: { display: "none" },
 					}}

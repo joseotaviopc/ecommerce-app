@@ -17,7 +17,7 @@ export default function CheckoutScreen() {
 				Checkout Screen - Status
 			</Text>
 			<Image
-				source={require("../components/blur-bg.png")}
+				source={require("../../components/blur-bg.png")}
 				style={{ width: "100%", height: "100%", position: "absolute" }}
 			/>
 		</View>
