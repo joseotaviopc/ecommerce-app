@@ -1,29 +1,35 @@
 import type React from "react";
 
-import { Redirect, Tabs } from "expo-router";
+import { Tabs } from "expo-router";
 import { ActivityIndicator, Platform, Text, View } from "react-native";
 
+import { HeaderTitle } from "@/components/header-title";
 import CartInactiveIcon from "@/components/icons/cart-inactive-icon";
 import CatalogInactiveIcon from "@/components/icons/catalog-inactive-icon";
 import MenuIcon from "@/components/icons/menu-inactive-icon";
 import Colors from "@/constants/Colors";
-import { HeaderTitle } from "@/components/header-title";
+import colors from "@/constants/Colors";
 import { useAuth } from "@/hooks/useAuth";
+import useCart from "@/hooks/useCart";
 
 export default function TabLayout() {
-	const {isLoading,isAuthenticated} = useAuth()
+	const { isLoading } = useAuth();
+	const { cart } = useCart();
+	const productsQuantity = cart?.length
+		? JSON.parse(cart[0].products).length
+		: 0;
 
 	if (isLoading) {
 		return (
 			<View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
 				<ActivityIndicator color={Colors.lightBlue} size="large" />
 			</View>
-		)}
-	
-		// if (!isAuthenticated) return <Redirect href={"/login"} />
-	
-		return (
+		);
+	}
+
+	return (
 		<Tabs
+			initialRouteName="index"
 			screenOptions={{
 				tabBarActiveTintColor: Colors.lightBlue,
 				tabBarInactiveTintColor: Colors.darker,
@@ -64,7 +70,35 @@ export default function TabLayout() {
 				options={{
 					title: "Carrinho",
 					headerTitle: () => <HeaderTitle />,
-					tabBarIcon: ({ color }) => <CartInactiveIcon color={color} />,
+					tabBarIcon: ({ color }) => (
+						<View style={{ position: "relative" }}>
+							{cart && productsQuantity > 0 ? (
+								<View
+									style={{
+										backgroundColor: colors.red,
+										height: 18,
+										width: 18,
+										borderRadius: 18,
+										top: 8,
+										right: -10,
+										alignItems: "center",
+										justifyContent: "center",
+										zIndex: 1,
+									}}
+								>
+									<Text
+										style={{
+											color: colors.white,
+											fontSize: 12,
+										}}
+									>
+										{productsQuantity}
+									</Text>
+								</View>
+							) : null}
+							<CartInactiveIcon color={color} />
+						</View>
+					),
 				}}
 			/>
 			<Tabs.Screen
@@ -72,35 +106,35 @@ export default function TabLayout() {
 				options={{
 					href: null,
 					headerTitle: () => <HeaderTitle />,
-				  }}
+				}}
 			/>
 			<Tabs.Screen
 				name="about"
 				options={{
 					href: null,
 					headerTitle: () => <HeaderTitle />,
-				  }}
+				}}
 			/>
 			<Tabs.Screen
 				name="report"
 				options={{
 					href: null,
 					headerTitle: () => <HeaderTitle />,
-				  }}
+				}}
 			/>
 			<Tabs.Screen
 				name="checkout"
 				options={{
 					href: null,
 					headerTitle: () => <HeaderTitle />,
-				  }}
+				}}
 			/>
 			<Tabs.Screen
 				name="product"
 				options={{
 					href: null,
 					headerTitle: () => <HeaderTitle />,
-				  }}
+				}}
 			/>
 			<Tabs.Screen
 				name="menu"
