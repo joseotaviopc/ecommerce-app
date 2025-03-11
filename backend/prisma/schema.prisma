@@ -30,7 +30,6 @@ model Product {
   imageUrl String
 
   cartId String?
-  cart   Cart?   @relation(fields: [cartId], references: [id])
 
   createdAt DateTime @default(now())
 }
@@ -39,8 +38,8 @@ model Cart {
   id         String @id @default(uuid())
   totalValue Float
 
-  products Product[]
-  userId   String    @unique
+  products String
+  userId   String @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
