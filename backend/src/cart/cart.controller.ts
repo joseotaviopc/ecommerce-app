@@ -6,6 +6,7 @@ import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
   ApiOperation,
 } from '@nestjs/swagger';
 import { OutputCartDto } from './dto/output-cart.dto';
@@ -24,21 +25,40 @@ export class CartController {
   }
 
   @Get()
+  @ApiOperation({ description: 'List all cart' })
+  @ApiCreatedResponse({ description: 'Carts listed', type: OutputCartDto, isArray: true })
+  @ApiBadRequestResponse({ description: 'Invalid data' })
+  @ApiInternalServerErrorResponse({ description: 'Something went wrong' })
   async findAll() {
     return await this.cartService.findAll();
   }
 
   @Get(':id')
+  @ApiOperation({ description: 'Get a new cart by id' })
+  @ApiCreatedResponse({ description: 'Cart retrieved', type: OutputCartDto })
+  @ApiNotFoundResponse({ description: 'Cart not found' })
+  @ApiBadRequestResponse({ description: 'Invalid data' })
+  @ApiInternalServerErrorResponse({ description: 'Something went wrong' })
   async findOne(@Param('id') id: string) {
     return await this.cartService.findOne(id);
   }
 
   @Patch(':id')
+  @ApiOperation({ description: 'Update a cart' })
+  @ApiCreatedResponse({ description: 'Cart updated', type: OutputCartDto })
+  @ApiNotFoundResponse({ description: 'Cart not found' })
+  @ApiBadRequestResponse({ description: 'Invalid data' })
+  @ApiInternalServerErrorResponse({ description: 'Something went wrong' })
   async update(@Param('id') id: string, @Body() updateCartDto: UpdateCartDto) {
     return await this.cartService.update(id, updateCartDto);
   }
 
   @Delete(':id')
+  @ApiOperation({ description: 'Delete a cart' })
+  @ApiCreatedResponse({ description: 'Cart deleted', type: OutputCartDto })
+  @ApiNotFoundResponse({ description: 'Cart not found' })
+  @ApiBadRequestResponse({ description: 'Invalid data' })
+  @ApiInternalServerErrorResponse({ description: 'Something went wrong' })
   async remove(@Param('id') id: string) {
     await this.cartService.remove(id);
   }

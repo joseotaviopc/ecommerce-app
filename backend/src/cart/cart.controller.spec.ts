@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CartController } from './cart.controller';
-import { CartService } from './cart.service';
-import { PrismaService } from '../services/prisma.service';
 import { ProductsController } from '../products/products.controller';
 import { ProductsService } from '../products/products.service';
+import { PrismaService } from '../services/prisma.service';
+import { CartController } from './cart.controller';
+import { CartService } from './cart.service';
 
 describe('CartController', () => {
   let controller: CartController;
@@ -31,16 +31,17 @@ describe('CartController', () => {
       starts: 5,
       imageUrl: 'https://www.google.com',
     });
+    const newProductString = JSON.stringify([newProduct]);
     const cart = await controller.create({
       totalValue: 100,
       userId: '',
-      products: [newProduct],
+      products: newProductString,
     });
 
     await productController.remove(newProduct.id);
-    await controller.remove(cart.id);
-
     expect(cart).toBeInstanceOf(Object);
+
+    await controller.remove(cart.id);
   });
 
   it('should find all carts', async () => {
@@ -56,10 +57,11 @@ describe('CartController', () => {
       starts: 5,
       imageUrl: 'https://www.google.com',
     });
+    const newProductString = JSON.stringify([newProduct]);
     const cart = await controller.create({
       totalValue: 100,
       userId: '',
-      products: [newProduct],
+      products: newProductString,
     });
 
     const cartFound = controller.findOne(cart.id);
@@ -96,10 +98,11 @@ describe('CartController', () => {
       starts: 5,
       imageUrl: 'https://www.google.com',
     });
+    const newProductString = JSON.stringify([newProduct]);
     const cart = await controller.create({
       totalValue: 100,
       userId: '',
-      products: [newProduct],
+      products: newProductString,
     });
 
     const cartRemoved = await controller.remove(cart.id);

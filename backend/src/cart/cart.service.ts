@@ -1,44 +1,29 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../services/prisma.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
-import { PrismaService } from '../services/prisma.service';
 
 @Injectable()
 export class CartService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async create(createCartDto: CreateCartDto) {
     return await this.prisma.cart.create({
       data: {
         totalValue: createCartDto.totalValue,
-        products: {
-          connect: createCartDto.products.map((product) => {
-            return {
-              ...product,
-              colors: product.colors.join(','),
-            };
-          }),
-        },
+        products: createCartDto.products,
         userId: createCartDto.userId,
       },
-      include: { products: true },
     });
   }
 
   async findAll() {
-    return await this.prisma.cart.findMany({
-      include: {
-        products: true,
-      },
-    });
+    return await this.prisma.cart.findMany();
   }
 
   async findOne(id: string) {
     const cart = await this.prisma.cart.findUnique({
       where: { id },
-      include: {
-        products: true,
-      },
     });
     if (!cart) return null;
 
@@ -55,16 +40,8 @@ export class CartService {
       where: { id },
       data: {
         totalValue: updateCartDto.totalValue,
-        products: {
-          connect: updateCartDto.products.map((product) => {
-            return {
-              ...product,
-              colors: product.colors.join(','),
-            };
-          }),
-        },
+        products: updateCartDto.products,
       },
-      include: { products: true },
     });
   }
 

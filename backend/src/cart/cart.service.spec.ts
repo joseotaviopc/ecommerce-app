@@ -1,10 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CartService } from './cart.service';
-import { PrismaService } from '../services/prisma.service';
 import { ProductsService } from '../products/products.service';
-import { UsersService } from '../users/users.service';
 import { PasswordService } from '../services/password.service';
+import { PrismaService } from '../services/prisma.service';
+import { UsersService } from '../users/users.service';
+import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create-cart.dto';
+// import { describe, it, beforeAll, expect } from 'vitest';
+
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 describe('CartService', () => {
   let service: CartService;
@@ -45,24 +50,25 @@ describe('CartService', () => {
     });
     const user = await userService.findAll();
     const userId = user[0].id;
+    const newProductString = JSON.stringify([newProduct]);
+
     const createCart = new CreateCartDto({
       totalValue: 100,
       userId,
-      products: [newProduct],
+      products: newProductString,
     });
     const cart = await service.create(createCart);
 
     const transformProduct = {
       ...newProduct,
-      cartId: cart.id,
-      colors: newProduct.colors.join(','),
+      colors: [newProduct.colors.join(',')],
     };
 
     expect(cart).toBeInstanceOf(Object);
     expect(cart.createdAt).toBeInstanceOf(Date);
     expect(cart.totalValue).toBe(100);
     expect(cart.userId).toBe(userId);
-    expect(cart.products).toEqual([transformProduct]);
+    expect(cart.products).toEqual(JSON.stringify([transformProduct]));
 
     await productService.remove(newProduct.id);
     await service.remove(cart.id);
@@ -83,15 +89,16 @@ describe('CartService', () => {
     });
     const user = await userService.findAll();
     const userId = user[0].id;
+    const newProductString = JSON.stringify([newProduct]);
+
     const cart = await service.create({
       totalValue: 100,
       userId,
-      products: [newProduct],
+      products: newProductString,
     });
     const transformProduct = {
       ...newProduct,
-      cartId: cart.id,
-      colors: newProduct.colors.join(','),
+      colors: [newProduct.colors.join(',')],
     };
 
     const cartFound = await service.findOne(cart.id);
@@ -101,7 +108,7 @@ describe('CartService', () => {
     expect(cartFound?.createdAt).toBeInstanceOf(Date);
     expect(cartFound?.totalValue).toBe(100);
     expect(cartFound?.userId).toBe(userId);
-    expect(cartFound?.products).toEqual([transformProduct]);
+    expect(cartFound?.products).toEqual(JSON.stringify([transformProduct]));
 
     await productService.remove(newProduct.id);
     await service.remove(cart.id);
@@ -122,10 +129,12 @@ describe('CartService', () => {
     });
     const user = await userService.findAll();
     const userId = user[0].id;
+    const newProductString = JSON.stringify([newProduct]);
+
     const cart = await service.create({
       totalValue: 100,
       userId,
-      products: [newProduct],
+      products: newProductString,
     });
     const transformProduct = {
       ...newProduct,
@@ -159,19 +168,16 @@ describe('CartService', () => {
     });
     const user = await userService.findAll();
     const userId = user[0].id;
+    const newProductString = JSON.stringify([newProduct]);
+
     const cartCreated = await service.create({
       totalValue: 100,
       userId,
-      products: [newProduct],
+      products: newProductString,
     });
-    const transformProduct = {
-      ...newProduct,
-      cartId: cartCreated.id,
-      colors: newProduct.colors.join(','),
-    };
     const cartUpdated = await service.update(cartCreated.id, {
       totalValue: 200,
-      products: [],
+      products: JSON.stringify([]),
     });
     await productService.remove(newProduct.id);
     await service.remove(cartCreated.id);
@@ -180,13 +186,13 @@ describe('CartService', () => {
     expect(cartUpdated?.createdAt).toBeInstanceOf(Date);
     expect(cartUpdated?.totalValue).toBe(200);
     expect(cartUpdated?.userId).toBe(userId);
-    expect(cartUpdated?.products).toEqual([transformProduct]);
+    expect(cartUpdated?.products).toEqual(JSON.stringify([]));
   });
 
   it('should return null when not find a cart to update', async () => {
     const cart = await service.update('invalid-id', {
       totalValue: 200,
-      products: [],
+      products: JSON.stringify([]),
     });
     expect(cart).toBeNull();
   });
