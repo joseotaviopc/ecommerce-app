@@ -13,7 +13,8 @@
         "enabled": true,
         "indentStyle": "space",
         "indentWidth": 4,
-        "lineWidth": 100
+        "lineWidth": 100,
+        "formatWithErrors": true
     },
     "organizeImports": {
         "enabled": true
@@ -21,7 +22,13 @@
     "linter": {
         "enabled": true,
         "rules": {
-            "recommended": true
+            "recommended": true,
+            "style": {
+                "noUnusedTemplateLiteral": {
+                    "level": "error",
+                    "fix": "safe"
+                }
+            }
         }
     },
     "javascript": {
