@@ -1,5 +1,5 @@
-import { View } from "react-native";
+import { View } from 'react-native'
 
 export default function TabTwoScreen() {
-	return <View />;
+    return <View />
 }
